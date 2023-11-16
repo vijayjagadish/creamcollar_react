@@ -3,7 +3,7 @@ import Navbar from './Navbar';
 import axios from 'axios';
 import qs from 'qs';
 import { Navigate, useNavigate,Link} from 'react-router-dom';
-
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
  
 const Login = () => {
   const userRef = useRef();
@@ -12,6 +12,10 @@ const Login = () => {
   const [errMsg, setErrMsg] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate=useNavigate();
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {     setShowPassword(!showPassword);   };
  
   useEffect(() => {
     userRef.current.focus();
@@ -59,7 +63,7 @@ const Login = () => {
       })
       .catch((error) => {
         console.error('Login failed');
-        console.error(error);
+        window.alert('Please Check username or password')
       });
   };
  
@@ -101,15 +105,35 @@ const Login = () => {
                       <div class="div-4">
                         <label class="label-text">Password</label>
                       </div>
-                      <div class="div-5">
-                        <input
-                          class="placeholder-text"
-                          type="password"
-                          id="password"
-                          placeholder="Password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                        />
+                       <div class="div-5"style={{ position: 'relative' }}>
+                          <input
+                            type={showPassword ? 'text' : 'password'}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                          />
+                               {showPassword ? (
+                              <FaEyeSlash
+                                onClick={togglePasswordVisibility}
+                                style={{
+                                  position: 'absolute',
+                                  right: '8px',
+                                  top: '60%',
+                                  transform: 'translateY(-50%)',
+                                  cursor: 'pointer',
+                                }}
+                              />
+                            ) : (
+                              <FaEye
+                                onClick={togglePasswordVisibility}
+                                style={{
+                                  position: 'absolute',
+                                  right: '8px',
+                                  top: '60%',
+                                  transform: 'translateY(-50%)',
+                                  cursor: 'pointer',
+                                }}
+                              />
+                            )}
                       </div>
                     </div>
                   </div>
